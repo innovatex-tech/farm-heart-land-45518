@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Base colors - Lovable Dude Farm Palette */
+    --background: 30 25% 98%; /* soft cream */
+    --foreground: 217 33% 12%; /* deep text */
+
+    --card: 0 0% 100%;
+    --card-foreground: 217 33% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 217 33% 12%;
+
+    /* Primary - Deep organic green */
+    --primary: 151 82% 23%;
+    --primary-foreground: 30 25% 98%;
+
+    /* Secondary - Warm golden sand */
+    --secondary: 43 55% 50%;
+    --secondary-foreground: 217 33% 12%;
+
+    /* Muted tones */
+    --muted: 30 20% 94%;
+    --muted-foreground: 217 15% 45%;
+
+    /* Accent - Sunlight hue */
+    --accent: 45 92% 64%;
+    --accent-foreground: 217 33% 12%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 30 25% 98%;
+
+    --border: 30 15% 88%;
+    --input: 30 15% 88%;
+    --ring: 151 82% 23%;
+
+    --radius: 0.75rem;
+
+    /* Custom design tokens */
+    --gradient-hero: linear-gradient(135deg, hsl(151 82% 23%), hsl(151 60% 35%));
+    --gradient-golden: linear-gradient(135deg, hsl(43 55% 50%), hsl(45 92% 64%));
+    --gradient-footer: linear-gradient(180deg, hsl(30 25% 98%), hsl(43 30% 92%));
+    
+    --shadow-soft: 0 4px 20px rgba(11, 107, 58, 0.08);
+    --shadow-elevated: 0 10px 40px rgba(11, 107, 58, 0.12);
+    
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dark {
+    --background: 217 33% 12%;
+    --foreground: 30 25% 98%;
+
+    --card: 217 30% 15%;
+    --card-foreground: 30 25% 98%;
+
+    --popover: 217 30% 15%;
+    --popover-foreground: 30 25% 98%;
+
+    --primary: 151 82% 35%;
+    --primary-foreground: 30 25% 98%;
+
+    --secondary: 43 50% 45%;
+    --secondary-foreground: 30 25% 98%;
+
+    --muted: 217 25% 20%;
+    --muted-foreground: 217 10% 70%;
+
+    --accent: 45 85% 60%;
+    --accent-foreground: 217 33% 12%;
+
+    --destructive: 0 62.8% 50%;
+    --destructive-foreground: 30 25% 98%;
+
+    --border: 217 20% 25%;
+    --input: 217 20% 25%;
+    --ring: 151 82% 35%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
