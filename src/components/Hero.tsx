@@ -2,7 +2,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowDown, Leaf, Sparkles, TrendingUp } from "lucide-react";
-import heroImage from "@/assets/hero-farm.jpg";
+import heroImage from "@/assets/hero-farm-bg.jpg";
 import { useRef } from "react";
 
 export const Hero = () => {
