@@ -54,11 +54,8 @@ export const Navbar = () => {
             <img
               src={logo}
               alt="Central Africa Trading Company Logo"
-              className="h-12 w-12 rounded-lg object-cover border border-border/30 bg-background/50 backdrop-blur-sm p-0.5"
+              className="h-14 w-auto max-w-[200px] object-contain"
             />
-            <span className="font-heading text-xl font-bold text-foreground hidden sm:inline">
-              Central Africa Trading Company
-            </span>
           </Link>
 
           {/* Mobile Menu Button */}
