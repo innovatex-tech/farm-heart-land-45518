@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { cn } from "@/lib/utils";
-import logo from "@/assets/logo.jpg";
+import logo from "@/assets/logo.png";
 
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -54,7 +54,7 @@ export const Navbar = () => {
             <img
               src={logo}
               alt="Central Africa Trading Company Logo"
-              className="h-14 w-auto max-w-[200px] object-contain"
+              className="h-12 w-auto max-w-[280px] object-contain"
             />
           </Link>
 
