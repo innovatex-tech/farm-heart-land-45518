@@ -25,10 +25,10 @@ const Home = () => {
           viewport={{ once: true }}
           className="text-center mb-16 px-6 relative z-10"
         >
-          <h2 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
             Our Journey: From Vision to Harvest
           </h2>
-          <p className="max-w-3xl text-lg md:text-xl text-muted-foreground mx-auto leading-relaxed">
+          <p className="max-w-3xl text-base sm:text-lg md:text-xl text-muted-foreground mx-auto leading-relaxed">
             Every great harvest tells a story. Ours begins with vision, grows through community, and flourishes with dedication.
           </p>
         </motion.div>
@@ -54,15 +54,15 @@ const Home = () => {
                 className="rounded-3xl shadow-2xl w-full h-[400px] object-cover relative z-10 group-hover:scale-[1.02] transition-transform duration-500" 
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent rounded-3xl z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-8">
-                <p className="text-primary-foreground text-lg italic">"Understanding the land is where transformation begins"</p>
+                <p className="text-primary-foreground text-base sm:text-lg italic">"Understanding the land is where transformation begins"</p>
               </div>
             </div>
             <div className="order-1 md:order-2 text-center md:text-left">
               <div className="inline-block px-4 py-2 bg-primary/10 rounded-full mb-4">
                 <span className="text-primary font-bold text-sm uppercase tracking-wider">Chapter 1</span>
               </div>
-              <h3 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Field Assessment</h3>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-4">
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4">Field Assessment</h3>
+              <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-4">
                 We walk the land with experienced eyes, listening to what the soil tells us. Every field has a story, 
                 a unique potential waiting to be unlocked. Our assessment isn't just about measurements—it's about 
                 understanding the heartbeat of the earth beneath our feet.
@@ -86,8 +86,8 @@ const Home = () => {
               <div className="inline-block px-4 py-2 bg-secondary/10 rounded-full mb-4">
                 <span className="text-secondary font-bold text-sm uppercase tracking-wider">Chapter 2</span>
               </div>
-              <h3 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Community Gathering</h3>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-4">
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4">Community Gathering</h3>
+              <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-4">
                 Agriculture is a symphony, not a solo. We gather farmers, families, and dreamers around shared tables, 
                 forging bonds stronger than any fence. Here, traditional wisdom meets innovative thinking, and partnerships 
                 are born that will sustain generations.
@@ -105,7 +105,7 @@ const Home = () => {
                 className="rounded-3xl shadow-2xl w-full h-[400px] object-cover relative z-10 group-hover:scale-[1.02] transition-transform duration-500" 
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent rounded-3xl z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-8">
-                <p className="text-primary-foreground text-lg italic">"Together we cultivate more than crops—we grow community"</p>
+                <p className="text-primary-foreground text-base sm:text-lg italic">"Together we cultivate more than crops—we grow community"</p>
               </div>
             </div>
           </motion.div>
@@ -126,15 +126,15 @@ const Home = () => {
                 className="rounded-3xl shadow-2xl w-full h-[400px] object-cover relative z-10 group-hover:scale-[1.02] transition-transform duration-500" 
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent rounded-3xl z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-8">
-                <p className="text-primary-foreground text-lg italic">"From the first turn of soil to the final seed planted"</p>
+                <p className="text-primary-foreground text-base sm:text-lg italic">"From the first turn of soil to the final seed planted"</p>
               </div>
             </div>
             <div className="order-1 md:order-2 text-center md:text-left">
               <div className="inline-block px-4 py-2 bg-accent/10 rounded-full mb-4">
                 <span className="text-accent font-bold text-sm uppercase tracking-wider">Chapter 3</span>
               </div>
-              <h3 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Land Preparation</h3>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-4">
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4">Land Preparation</h3>
+              <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-4">
                 Now comes the transformation—where vision meets action, and potential becomes reality. With hands in the soil 
                 and hearts full of purpose, we prepare the earth for its greatest performance. Every furrow is a promise, 
                 every seed a prayer for abundance.

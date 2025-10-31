@@ -1,54 +1,60 @@
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { MapPin, Phone, Mail } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
 
 export const Contact = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const { toast } = useToast();
-  const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    interest: "",
-    message: "",
-  });
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Basic validation
-    if (!formData.name || !formData.phone || !formData.message) {
-      toast({
-        title: "Missing Information",
-        description: "Please fill in all required fields.",
-        variant: "destructive",
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (status === "submitting") return;
+
+    setStatus("submitting");
+    setErrorMessage("");
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    formData.append("_captcha", "false");
+    formData.append("_template", "table");
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/duffali16@gmail.com", {
+        method: "POST",
+        headers: {
+          Accept: "application/json"
+        },
+        body: formData
       });
-      return;
+
+      if (!response.ok) {
+        throw new Error("We couldn't send your request. Please try again.");
+      }
+
+      const data = await response.json();
+      if (!data.success) {
+        throw new Error(data.message || "We couldn't send your request. Please try again.");
+      }
+
+      setStatus("success");
+      form.reset();
+    } catch (error) {
+      setStatus("error");
+      setErrorMessage(
+        error instanceof Error ? error.message : "Something went wrong. Please try again or email us directly."
+      );
+    } finally {
+      setTimeout(() => {
+        setStatus((current) => (current === "success" ? "idle" : current));
+      }, 4000);
     }
-
-    // Show success message
-    toast({
-      title: "Request Sent Successfully! 🌾",
-      description: "We'll get back to you within 24 hours.",
-    });
-
-    // Reset form
-    setFormData({
-      name: "",
-      phone: "",
-      email: "",
-      interest: "",
-      message: "",
-    });
   };
 
   return (
@@ -64,7 +70,7 @@ export const Contact = () => {
             Get in Touch
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Ready to order or have questions? We're here to help
+            Setup is easy and free—send your details below and FormSubmit will confirm your first request automatically.
           </p>
           <div className="w-24 h-1 bg-secondary mx-auto rounded-full mt-4" />
         </motion.div>
@@ -78,88 +84,72 @@ export const Contact = () => {
           >
             <Card className="border-border/50 shadow-xl">
               <CardContent className="p-8">
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6" noValidate>
                   <div className="space-y-2">
-                    <Label htmlFor="name">Full Name *</Label>
+                    <Label htmlFor="full-name">Full Name *</Label>
                     <Input
-                      id="name"
+                      id="full-name"
+                      name="name"
                       placeholder="Your name"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       className="border-border/50"
                       required
                     />
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="phone">Phone Number *</Label>
-                      <Input
-                        id="phone"
-                        type="tel"
-                        placeholder="+252 XX XXX XXXX"
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        className="border-border/50"
-                        required
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email (Optional)</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        placeholder="your@email.com"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="border-border/50"
-                      />
-                    </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email *</Label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      placeholder="you@email.com"
+                      className="border-border/50"
+                      required
+                    />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="interest">I'm Interested In</Label>
-                    <Select
-                      value={formData.interest}
-                      onValueChange={(value) => setFormData({ ...formData, interest: value })}
-                    >
-                      <SelectTrigger className="border-border/50">
-                        <SelectValue placeholder="Select an option" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="sesame">Sesame</SelectItem>
-                        <SelectItem value="maize">Maize</SelectItem>
-                        <SelectItem value="watermelon">Watermelon</SelectItem>
-                        <SelectItem value="tractor">Tractor Hours</SelectItem>
-                        <SelectItem value="transport">Transportation</SelectItem>
-                        <SelectItem value="other">Other / General Inquiry</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <Label htmlFor="phone">Phone (Optional)</Label>
+                    <Input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      placeholder="+252 XX XXX XXXX"
+                      className="border-border/50"
+                    />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="message">Message *</Label>
+                    <Label htmlFor="message">How can we help? *</Label>
                     <Textarea
                       id="message"
-                      placeholder="Tell us what you need..."
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      name="message"
+                      placeholder="Tell us about your tractor service request, transport schedule, or crop order."
                       className="border-border/50 min-h-32"
                       required
                     />
                   </div>
 
-                  <p className="text-sm text-muted-foreground">
-                    We'll get back to you within 24 hours
-                  </p>
-
                   <Button
                     type="submit"
+                    disabled={status === "submitting"}
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-6 text-lg shadow-lg hover:shadow-xl transition-all duration-300"
                   >
-                    Send Request
+                    {status === "submitting" ? "Sending..." : "Send Request"}
                   </Button>
+
+                  <div className="min-h-[1.5rem]" aria-live="polite">
+                    {status === "success" && (
+                      <p className="text-sm font-medium text-green-400">
+                        Thanks! We&apos;ve received your request and will be in touch shortly.
+                      </p>
+                    )}
+                    {status === "error" && (
+                      <p className="text-sm font-medium text-red-400">
+                        {errorMessage}
+                      </p>
+                    )}
+                  </div>
                 </form>
               </CardContent>
             </Card>
@@ -208,8 +198,10 @@ export const Contact = () => {
                 <div>
                   <h3 className="font-semibold text-lg mb-1">Location</h3>
                   <p className="text-muted-foreground">
-                    Wadijir District, Jalle Siyad Street<br />
-                    Near Hormuud Wadajir Branch<br />
+                    Wadijir District, Jalle Siyad Street
+                    <br />
+                    Near Hormuud Wadajir Branch
+                    <br />
                     Mogadishu, Somalia
                   </p>
                 </div>

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useForm, ValidationError } from "@formspree/react";
-import { Play } from "lucide-react";
 import heroImage from "@/assets/hero-farm.jpg";
 
 type HeroContactFormProps = {
@@ -144,9 +143,9 @@ export const Hero = () => {
                 transition={{ duration: 0.8, delay: 0.4 }}
                 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight uppercase"
               >
-                Best Harvest
+                Empowering Local
                 <br />
-                In The World
+                Farmers Forward
               </motion.h1>
 
               <motion.p
@@ -155,7 +154,7 @@ export const Hero = () => {
                 transition={{ duration: 0.6, delay: 0.6 }}
                 className="text-white/80 text-base md:text-lg mb-8 max-w-xl"
               >
-                Grown with Care, Delivered with Heart. Premium Sesame, Maize, Watermelon, and the services that bring them to life.
+                From tractor hours and land preparation to transport and premium crop sales, we stand beside growers at every stage of their harvest.
               </motion.p>
 
               <motion.div
