@@ -1,214 +1,237 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowDown, Leaf, Sparkles, TrendingUp } from "lucide-react";
-import heroImage from "@/assets/hero-farm-bg.jpg";
-import { useRef } from "react";
+import { useForm, ValidationError } from "@formspree/react";
+import { Play } from "lucide-react";
+import heroImage from "@/assets/hero-farm.jpg";
 
-export const Hero = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"]
-  });
+type HeroContactFormProps = {
+  onClose: () => void;
+};
 
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+const HeroContactForm = ({ onClose }: HeroContactFormProps) => {
+  const [state, handleSubmit] = useForm("xnnoggbl");
+
+  if (state.succeeded) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-col items-center justify-center gap-4 text-center bg-white/10 border border-white/20 rounded-3xl p-8 backdrop-blur-md shadow-xl"
+      >
+        <span className="text-sm uppercase tracking-[0.3em] text-white/70">
+          Message Sent
+        </span>
+        <h3 className="text-2xl font-semibold text-white">
+          Thanks for reaching out!
+        </h3>
+        <p className="text-white/70 text-base">
+          We&apos;ll connect with you shortly to talk through your needs.
+        </p>
+        <Button
+          onClick={onClose}
+          className="bg-[hsl(var(--accent))] hover:bg-[hsl(var(--accent))]/90 text-black font-semibold rounded-full px-6 py-4"
+        >
+          Close
+        </Button>
+      </motion.div>
+    );
+  }
 
   return (
-    <section ref={containerRef} className="relative h-screen overflow-hidden">
-      {/* Parallax Background */}
-      <motion.div 
-        style={{ y }}
-        className="absolute inset-0 w-full h-[120%]"
-      >
-        <div 
-          className="absolute inset-0 bg-cover bg-center scale-110"
-          style={{ backgroundImage: `url(${heroImage})` }}
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white/10 border border-white/20 rounded-3xl p-8 backdrop-blur-md shadow-xl space-y-6"
+    >
+      <div className="space-y-3">
+        <label
+          htmlFor="email"
+          className="text-sm uppercase tracking-[0.3em] text-white/70"
+        >
+          Email Address
+        </label>
+        <input
+          id="email"
+          type="email"
+          name="email"
+          required
+          placeholder="you@example.com"
+          className="w-full rounded-2xl bg-black/40 border border-white/20 px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-[hsl(var(--accent))]"
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/80 via-primary/50 to-background/90" />
-        
-        {/* Animated Grid Overlay */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
-            backgroundSize: '50px 50px'
-          }} />
-        </div>
-      </motion.div>
-
-      {/* Floating Organic Shapes */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          className="absolute top-20 right-[10%] w-64 h-64 rounded-full"
-          style={{
-            background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)',
-          }}
-          animate={{ 
-            y: [0, -30, 0],
-            scale: [1, 1.1, 1],
-            rotate: [0, 90, 0]
-          }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute bottom-32 left-[15%] w-96 h-96 rounded-full"
-          style={{
-            background: 'radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%)',
-          }}
-          animate={{ 
-            y: [0, 40, 0],
-            scale: [1, 1.2, 1],
-            rotate: [0, -90, 0]
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        <ValidationError
+          prefix="Email"
+          field="email"
+          errors={state.errors}
+          className="text-sm text-red-300"
         />
       </div>
 
-      {/* Main Content */}
-      <motion.div 
-        style={{ opacity }}
-        className="relative h-full flex items-center justify-center"
+      <div className="space-y-3">
+        <label
+          htmlFor="message"
+          className="text-sm uppercase tracking-[0.3em] text-white/70"
+        >
+          How can we help?
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          rows={4}
+          required
+          placeholder="Share a bit about your project or produce needs..."
+          className="w-full rounded-2xl bg-black/40 border border-white/20 px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-[hsl(var(--accent))] resize-none"
+        />
+        <ValidationError
+          prefix="Message"
+          field="message"
+          errors={state.errors}
+          className="text-sm text-red-300"
+        />
+      </div>
+
+      <Button
+        type="submit"
+        size="lg"
+        disabled={state.submitting}
+        className="w-full bg-[hsl(var(--accent))] hover:bg-[hsl(var(--accent))]/90 text-black font-semibold text-base md:text-lg px-8 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 uppercase tracking-wide disabled:opacity-70"
       >
-        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Column - Text Content */}
-          <div className="text-center lg:text-left space-y-8">
-            {/* Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/20 backdrop-blur-md rounded-full border border-secondary/30"
-            >
-              <Sparkles className="w-4 h-4 text-secondary" />
-              <span className="text-secondary-foreground font-medium text-sm">Premium Agricultural Solutions</span>
-            </motion.div>
+        {state.submitting ? "Sending..." : "Request Details"}
+      </Button>
+    </form>
+  );
+};
 
-            {/* Main Heading */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-            >
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-4">
-                <span className="block text-primary-foreground">Central Africa</span>
-                <span className="block bg-gradient-to-r from-secondary via-accent to-secondary bg-clip-text text-transparent animate-gradient">
-                  Trading Company
-                </span>
-              </h1>
-            </motion.div>
+export const Hero = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-            {/* Subheading */}
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="text-2xl md:text-3xl text-primary-foreground/95 font-medium"
-            >
-              Grown with Care, Delivered with Heart
-            </motion.p>
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
-            {/* Description */}
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="text-lg md:text-xl text-primary-foreground/80 leading-relaxed max-w-xl mx-auto lg:mx-0"
-            >
-              Premium Sesame, Maize, Watermelon, and comprehensive services that bring them to life
-            </motion.p>
+  return (
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden p-4 md:p-8 lg:p-16">
+      {/* Background Image */}
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${heroImage})` }}
+      >
+        <div className="absolute inset-0 bg-black/40" />
+      </div>
 
-            {/* CTA Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.7 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
-            >
-              <Link to="/contact">
+      {/* Framed Container */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8 }}
+        className="relative z-10 w-full max-w-7xl mx-auto border-4 border-[hsl(var(--accent))] rounded-[2rem] md:rounded-[3rem] overflow-hidden backdrop-blur-sm bg-gradient-to-b from-black/20 to-black/40 shadow-2xl"
+      >
+        {/* Inner Content Container */}
+        <div className="relative min-h-[70vh] md:min-h-[80vh] flex items-center justify-center p-8 md:p-16">
+          {/* Content */}
+          <div className="max-w-3xl text-left space-y-8">
+            <div>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="text-white/90 text-sm md:text-base tracking-[0.3em] uppercase mb-4 font-light"
+              >
+                Central Africa Trading Company
+              </motion.p>
+
+              <motion.h1
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight uppercase"
+              >
+                Best Harvest
+                <br />
+                In The World
+              </motion.h1>
+
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+                className="text-white/80 text-base md:text-lg mb-8 max-w-xl"
+              >
+                Grown with Care, Delivered with Heart. Premium Sesame, Maize, Watermelon, and the services that bring them to life.
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.8 }}
+              >
                 <Button
                   size="lg"
-                  className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-semibold text-lg px-8 py-7 rounded-2xl shadow-2xl hover:shadow-secondary/50 transition-all duration-300 hover:scale-105 group"
+                  onClick={openModal}
+                  className="bg-[hsl(var(--accent))] hover:bg-[hsl(var(--accent))]/90 text-black font-semibold text-base md:text-lg px-8 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 uppercase tracking-wide"
                 >
                   Request a Quote
-                  <TrendingUp className="ml-2 w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                 </Button>
-              </Link>
-              <Link to="/about">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="bg-primary-foreground/10 hover:bg-primary-foreground/20 text-primary-foreground border-2 border-primary-foreground/30 font-semibold text-lg px-8 py-7 rounded-2xl backdrop-blur-md shadow-xl transition-all duration-300 hover:scale-105 group"
-                >
-                  Meet the Farmer
-                  <Leaf className="ml-2 w-5 h-5 group-hover:rotate-12 transition-transform" />
-                </Button>
-              </Link>
-            </motion.div>
+              </motion.div>
+            </div>
           </div>
 
-          {/* Right Column - Stats Cards */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, delay: 0.8 }}
-            className="hidden lg:grid grid-cols-2 gap-6"
+          {/* Play Button */}
+          <motion.button
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 1 }}
+            className="absolute right-8 md:right-16 top-1/2 -translate-y-1/2 w-16 h-16 md:w-20 md:h-20 rounded-full bg-[hsl(var(--accent))] flex items-center justify-center shadow-2xl hover:scale-110 transition-transform duration-300 group"
+            aria-label="Play introduction video"
           >
-            {/* Stat Card 1 */}
-            <motion.div
-              whileHover={{ scale: 1.05, rotate: 2 }}
-              className="bg-primary-foreground/10 backdrop-blur-xl border border-primary-foreground/20 rounded-3xl p-6 shadow-2xl"
-            >
-              <div className="text-5xl font-bold text-secondary mb-2">500+</div>
-              <div className="text-primary-foreground/80 font-medium">Hectares Cultivated</div>
-            </motion.div>
+            <Play className="w-6 h-6 md:w-8 md:h-8 text-black fill-black ml-1" />
+          </motion.button>
 
-            {/* Stat Card 2 */}
-            <motion.div
-              whileHover={{ scale: 1.05, rotate: -2 }}
-              className="bg-primary-foreground/10 backdrop-blur-xl border border-primary-foreground/20 rounded-3xl p-6 shadow-2xl mt-12"
-            >
-              <div className="text-5xl font-bold text-accent mb-2">10+</div>
-              <div className="text-primary-foreground/80 font-medium">Years Experience</div>
-            </motion.div>
-
-            {/* Stat Card 3 */}
-            <motion.div
-              whileHover={{ scale: 1.05, rotate: -2 }}
-              className="bg-primary-foreground/10 backdrop-blur-xl border border-primary-foreground/20 rounded-3xl p-6 shadow-2xl -mt-8"
-            >
-              <div className="text-5xl font-bold text-primary mb-2">100%</div>
-              <div className="text-primary-foreground/80 font-medium">Organic & Natural</div>
-            </motion.div>
-
-            {/* Stat Card 4 */}
-            <motion.div
-              whileHover={{ scale: 1.05, rotate: 2 }}
-              className="bg-primary-foreground/10 backdrop-blur-xl border border-primary-foreground/20 rounded-3xl p-6 shadow-2xl"
-            >
-              <div className="text-5xl font-bold text-secondary mb-2">50+</div>
-              <div className="text-primary-foreground/80 font-medium">Partner Farms</div>
-            </motion.div>
+          {/* Navigation Dots */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 1.2 }}
+            className="absolute right-8 md:right-12 bottom-8 md:bottom-12 flex flex-col gap-3"
+          >
+            <div className="w-3 h-3 rounded-full bg-white/90 shadow-lg" />
+            <div className="w-3 h-3 rounded-full bg-white/30 shadow-lg" />
+            <div className="w-3 h-3 rounded-full bg-white/30 shadow-lg" />
           </motion.div>
         </div>
       </motion.div>
 
-      {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.5 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20"
-      >
-        <motion.div
-          animate={{ y: [0, 12, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="flex flex-col items-center gap-2"
-        >
-          <span className="text-primary-foreground/60 text-sm font-medium uppercase tracking-wider">Scroll</span>
-          <ArrowDown className="w-6 h-6 text-primary-foreground/60" />
-        </motion.div>
-      </motion.div>
+      <AnimatePresence>
+        {isModalOpen && (
+          <>
+            <motion.div
+              key="backdrop"
+              className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={closeModal}
+            />
+            <motion.div
+              key="modal"
+              className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+            >
+              <div className="relative w-full max-w-lg">
+                <button
+                  onClick={closeModal}
+                  className="absolute -top-4 -right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white text-black shadow-lg hover:scale-105 transition"
+                  aria-label="Close contact form"
+                >
+                  &times;
+                </button>
+                <HeroContactForm onClose={closeModal} />
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </section>
   );
 };
