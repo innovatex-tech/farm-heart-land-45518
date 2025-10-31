@@ -40,21 +40,21 @@ export const Navbar = () => {
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
           isScrolled
-            ? "bg-background/95 backdrop-blur-md shadow-md border-b border-border"
-            : "bg-background/80 backdrop-blur-sm"
+            ? "bg-white/90 backdrop-blur-2xl shadow-lg border-b border-white/80"
+            : "bg-white/60 backdrop-blur-2xl border-b border-white/50"
         )}
       >
-        <div className="container mx-auto px-4 flex items-center justify-between h-20">
+        <div className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between px-6">
           {/* Logo */}
           <Link
             to="/"
-            className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+            className="flex items-center gap-3 transition-opacity hover:opacity-80"
             aria-label="Central Africa Trading Company Home"
           >
             <img
               src={logo}
               alt="Central Africa Trading Company Logo"
-              className="h-12 w-auto max-w-[280px] object-contain"
+              className="h-12 w-auto max-w-[240px] object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.25)]"
             />
           </Link>
 
@@ -62,7 +62,7 @@ export const Navbar = () => {
           <Button
             variant="ghost"
             size="icon"
-            className="md:hidden"
+            className="md:hidden text-slate-900 hover:bg-black/5"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -75,7 +75,7 @@ export const Navbar = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:block">
-            <div className="bg-muted/50 backdrop-blur-sm rounded-full p-1.5 border border-border/50">
+            <div className="rounded-full border border-black/5 bg-white/70 px-2 py-1.5 backdrop-blur-xl shadow-[0_20px_40px_rgba(15,23,42,0.08)]">
               <ToggleGroup type="single" value={getActivePage()} className="gap-1">
                 {navLinks.map((link) => {
                   const Icon = link.icon;
@@ -84,13 +84,13 @@ export const Navbar = () => {
                       <ToggleGroupItem
                         value={link.id}
                         className={cn(
-                          "px-4 py-2 rounded-full transition-all duration-200 text-sm font-medium",
+                          "flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 text-slate-600 hover:text-slate-900",
                           getActivePage() === link.id
-                            ? "text-primary-foreground bg-primary shadow-sm"
-                            : "text-muted-foreground hover:text-foreground hover:bg-background"
+                            ? "bg-[hsl(var(--accent))] text-black shadow-lg"
+                            : "hover:bg-white/70"
                         )}
                       >
-                        <Icon size={16} className="inline-block mr-1.5" />
+                        <Icon size={16} className="inline-block text-current" />
                         {link.label}
                       </ToggleGroupItem>
                     </Link>
@@ -100,13 +100,13 @@ export const Navbar = () => {
             </div>
           </nav>
 
-          <div className="hidden md:block w-12" /> {/* Spacer for balance */}
+          <div className="hidden w-12 md:block" /> {/* Spacer for balance */}
         </div>
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden absolute top-20 left-4 right-4 bg-background/95 backdrop-blur-md py-4 px-6 border border-border rounded-2xl shadow-lg animate-fade-in">
-            <div className="flex flex-col gap-3">
+          <div className="animate-fade-in absolute top-20 left-4 right-4 rounded-3xl border border-black/5 bg-white/90 px-6 py-4 backdrop-blur-2xl shadow-2xl md:hidden">
+            <div className="flex flex-col gap-3 py-2">
               {navLinks.map((link) => {
                 const Icon = link.icon;
                 return (
@@ -114,14 +114,14 @@ export const Navbar = () => {
                     key={link.id}
                     to={link.path}
                     className={cn(
-                      "px-3 py-2 text-sm rounded-lg transition-colors flex items-center",
+                      "flex items-center rounded-2xl px-4 py-3 text-sm transition-colors",
                       getActivePage() === link.id
-                        ? "bg-primary text-primary-foreground"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                        ? "bg-[hsl(var(--accent))] text-black shadow-lg"
+                        : "text-slate-600 hover:bg-white/70 hover:text-slate-900"
                     )}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <Icon size={16} className="inline-block mr-2" />
+                    <Icon size={16} className="mr-2 inline-block text-current" />
                     {link.label}
                   </Link>
                 );
