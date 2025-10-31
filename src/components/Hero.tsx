@@ -174,17 +174,6 @@ export const Hero = () => {
             </div>
           </div>
 
-          {/* Play Button */}
-          <motion.button
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 1 }}
-            className="absolute right-8 md:right-16 top-1/2 -translate-y-1/2 w-16 h-16 md:w-20 md:h-20 rounded-full bg-[hsl(var(--accent))] flex items-center justify-center shadow-2xl hover:scale-110 transition-transform duration-300 group"
-            aria-label="Play introduction video"
-          >
-            <Play className="w-6 h-6 md:w-8 md:h-8 text-black fill-black ml-1" />
-          </motion.button>
-
           {/* Navigation Dots */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
